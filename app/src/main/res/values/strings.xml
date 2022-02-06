@@ -4,4 +4,6 @@
   <string name="sprouting_plant_content_description">A new plant sprouting out of the soil</string>
   <string name="onboarding_empty_list_message">Nothing here so far...</string>
   <string name="button">+</string>
+  <string name="plants_overview">Your plants overview</string>
+  <string name="picture_of_your_plant">A picture of your plant</string>
 </resources>
