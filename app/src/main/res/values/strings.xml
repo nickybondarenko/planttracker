@@ -1,3 +1,7 @@
 <resources>
   <string name="app_name">planttracker</string>
+  <string name="onboarding_add_plant_text">To add a new plant into your tracker, tap on +</string>
+  <string name="sprouting_plant_content_description">A new plant sprouting out of the soil</string>
+  <string name="onboarding_empty_list_message">Nothing here so far...</string>
+  <string name="button">+</string>
 </resources>
