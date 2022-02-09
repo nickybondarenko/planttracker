@@ -1,4 +1,4 @@
-package com.nickybondarenko.planttracker
+package com.nickybondarenko.planttracker.app
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

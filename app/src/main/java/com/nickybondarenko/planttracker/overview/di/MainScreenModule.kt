@@ -1,4 +1,4 @@
-package com.nickybondarenko.planttracker.mainScreen.di
+package com.nickybondarenko.planttracker.overview.di
 
 import dagger.Module
 import dagger.hilt.InstallIn

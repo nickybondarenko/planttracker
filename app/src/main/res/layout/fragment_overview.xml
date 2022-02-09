@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+  <include layout="@layout/view_empty_plant_list"/>
+
+  <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/plant_list_recycler_view"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_margin="16dp"
+      android:paddingBottom="40dp"
+      android:clipToPadding="false"
+      app:layout_constraintTop_toTopOf="parent"
+      tools:listitem="@layout/view_holder_plant_item"
+      android:visibility="gone"
+      />
+
+  <com.google.android.material.floatingactionbutton.FloatingActionButton
+      android:id="@+id/add_plant_button"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/button"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      android:contentDescription="TODO"
+      />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
