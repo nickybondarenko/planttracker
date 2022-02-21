@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <item name="colorPrimary">@color/purple_500</item>
+    <item name="colorPrimaryVariant">@color/purple_700</item>
+    <item name="colorOnPrimary">@color/white</item>
+  </style>
+
+  <style name="FloatingActionButton" parent="@style/AppTheme">
+    <item name="colorSecondary">@color/shrine_pink_100</item>
+    <item name="colorOnSecondary">@color/shrine_pink_900</item>
+    <item name="colorOnSurface">@color/shrine_pink_900</item>
+    <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.App.SmallComponent</item>
+  </style>
+
+  <style name="ShapeAppearance.App.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+    <item name="cornerFamily">cut</item>
+    <item name="cornerSize">4dp</item>
+  </style>
+
+</resources>

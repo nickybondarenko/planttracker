@@ -6,4 +6,5 @@
   <string name="button">+</string>
   <string name="plants_overview">Your plants overview</string>
   <string name="picture_of_your_plant">A picture of your plant</string>
+  <string name="fab_content_description">Add a new plant to the list</string>
 </resources>
