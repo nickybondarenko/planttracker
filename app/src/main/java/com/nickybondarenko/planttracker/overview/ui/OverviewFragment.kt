@@ -5,20 +5,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.nickybondarenko.planttracker.R
+import com.nickybondarenko.planttracker.databinding.FragmentOverviewBinding
 
 class OverviewFragment: Fragment() {
+
+  private var _binding: FragmentOverviewBinding? = null
+  private val binding get() = _binding!!
+
   override fun onCreateView(
     inflater: LayoutInflater,
     container: ViewGroup?,
     savedInstanceState: Bundle?
   ): View? {
-    return inflater.inflate(R.layout.fragment_overview, null)
+    _binding = FragmentOverviewBinding.inflate(inflater, container, false)
+    return binding.root
   }
 
-  companion object {
-    fun getInstance(): OverviewFragment {
-      return OverviewFragment()
-    }
+  override fun onDestroyView() {
+    super.onDestroyView()
+    _binding = null
   }
 }
