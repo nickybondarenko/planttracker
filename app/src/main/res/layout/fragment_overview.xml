@@ -4,9 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/root"
     >
 
-  <include layout="@layout/view_empty_plant_list" />
+  <include
+      android:id="@+id/included_empty_plant_list"
+      layout="@layout/view_empty_plant_list" />
 
   <androidx.recyclerview.widget.RecyclerView
       android:id="@+id/plant_list_recycler_view"
