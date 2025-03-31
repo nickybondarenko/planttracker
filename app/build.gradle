@@ -8,7 +8,7 @@ plugins {
 android {
 
   namespace = "com.nickybondarenko.planttracker"
-  compileSdk 35
+  compileSdk 34
 
 
   defaultConfig {
@@ -60,6 +60,9 @@ dependencies {
   testImplementation 'junit:junit:4.13.2'
   androidTestImplementation 'androidx.test.ext:junit:1.1.5'
   androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+  // ViewModel Compose
+  implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1"
 
   //Dagger - Hilt
   implementation "com.google.dagger:hilt-android:2.51.1"

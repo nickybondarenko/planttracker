@@ -2,11 +2,9 @@ package com.nickybondarenko.planttracker.overview.data
 
 import com.nickybondarenko.planttracker.overview.domain.Plant
 import com.nickybondarenko.planttracker.overview.domain.PlantRepository
-import retrofit2.http.GET
+import javax.inject.Inject
 
-class PlantRepositoryImp (
-  private val api: PlantAPI
-) : PlantRepository {
+class PlantRepositoryImpl @Inject constructor(val api: PlantsAPI) : PlantRepository {
   override suspend fun getAllPlants(): List<Plant> {
     return listOf(
       Plant(name = "Monstera", description = "Pretty"),
@@ -16,8 +14,7 @@ class PlantRepositoryImp (
   }
 
   override suspend fun getPlantsFromNetwork(): List<Plant> {
-    api.networkCall()
-    //get the list...
+    api.getPlantsFromNetwork()
     return emptyList()
   }
 }

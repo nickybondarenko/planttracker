@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class OverviewViewModel @Inject constructor(val plantRepository: PlantRepository) : ViewModel() {
+class OverviewViewModel @Inject constructor(private val plantRepository: PlantRepository) : ViewModel() {
 
   private val _state = MutableStateFlow<OverviewState>(OverviewState.InitialState(true))
   val state: StateFlow<OverviewState> = _state
