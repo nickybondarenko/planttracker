@@ -6,6 +6,9 @@ plugins {
 }
 
 android {
+
+  namespace = "com.nickybondarenko.planttracker"
+
   compileSdk 31
 
   defaultConfig {
