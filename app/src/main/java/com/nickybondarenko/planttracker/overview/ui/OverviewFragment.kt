@@ -63,7 +63,10 @@ class OverviewFragment : Fragment() {
         when (it) {
           // DataState is successful loading of data
             // Feed the data from view model into recycler view here, recycler view to display data in the app
-          is OverviewState.DataState -> TODO()
+          is OverviewState.DataState -> {
+            // TODO needs to be added
+            binding.includedEmptyPlantList.viewEmptyPlantList.visibility = VISIBLE
+          }
           // EmptyState means that the database loaded, but there was no data
           is OverviewState.EmptyState -> {
             binding.includedEmptyPlantList.viewEmptyPlantList.visibility = VISIBLE
