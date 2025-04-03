@@ -20,16 +20,22 @@ class OverviewViewModel @Inject constructor(private val plantRepository: PlantRe
 
   }
 
+  fun onClearPlantListClicked() {
+    plantRepository.clear()
+  }
+
   fun loadData() {
     viewModelScope.launch {
       try {
-        val plants = plantRepository.getAllPlants()
+        val plants = plantRepository.getAllPlantsFromBackup()
         _state.value = OverviewState.DataState(false, plants)
       } catch (e: Exception) {
         _state.value = OverviewState.ErrorState(false)
       }
     }
   }
+
+  suspend fun getCurrentDataForDisplay(): List<Plant> = plantRepository.getAllPlantsFromBackup()
 }
 
 sealed class OverviewState(open val isLoading: Boolean) {

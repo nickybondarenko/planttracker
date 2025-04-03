@@ -10,11 +10,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.nickybondarenko.planttracker.R
 import com.nickybondarenko.planttracker.databinding.FragmentOverviewBinding
-import com.nickybondarenko.planttracker.databinding.ViewEmptyPlantListBinding
 import com.nickybondarenko.planttracker.exhaustive
+import com.nickybondarenko.planttracker.overview.domain.PlantsRecyclerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -26,6 +27,7 @@ class OverviewFragment : Fragment() {
   private val binding get() = _binding!!
   private val viewModel: OverviewViewModel by viewModels()
   private var snackbar: Snackbar? = null
+  private lateinit var adapter: PlantsRecyclerAdapter
 
   override fun onCreateView(
     inflater: LayoutInflater,
@@ -38,7 +40,7 @@ class OverviewFragment : Fragment() {
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-    setupButtonListener()
+    setupButtonListeners()
     observeState()
     viewModel.loadData()
   }
@@ -48,9 +50,14 @@ class OverviewFragment : Fragment() {
     _binding = null
   }
 
-  private fun setupButtonListener() {
+  private fun setupButtonListeners() {
     binding.addPlantButton.setOnClickListener {
       viewModel.onAddPlantClicked()
+      adapter.notifyDataSetChanged()
+    }
+    binding.clearPlantListButton.setOnClickListener {
+      viewModel.onClearPlantListClicked()
+      adapter.notifyDataSetChanged()
     }
   }
 
@@ -64,8 +71,10 @@ class OverviewFragment : Fragment() {
           // DataState is successful loading of data
             // Feed the data from view model into recycler view here, recycler view to display data in the app
           is OverviewState.DataState -> {
-            // TODO needs to be added
-            binding.includedEmptyPlantList.viewEmptyPlantList.visibility = VISIBLE
+            adapter = PlantsRecyclerAdapter(viewModel.getCurrentDataForDisplay())
+            binding.plantListRecyclerView.adapter = adapter
+            binding.plantListRecyclerView.layoutManager = LinearLayoutManager(activity)
+            binding.plantListRecyclerView.visibility = VISIBLE
           }
           // EmptyState means that the database loaded, but there was no data
           is OverviewState.EmptyState -> {
