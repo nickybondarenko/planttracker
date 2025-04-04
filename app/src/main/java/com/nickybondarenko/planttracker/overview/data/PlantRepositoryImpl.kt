@@ -5,13 +5,15 @@ import com.nickybondarenko.planttracker.overview.domain.PlantRepository
 import javax.inject.Inject
 
 class PlantRepositoryImpl @Inject constructor(
-  val api: PlantsAPI
+  private val api: PlantsAPI
 ) : PlantRepository {
-  var plants = mutableListOf<Plant>()
+  private var plants = mutableListOf(
+    Plant(name = "Monstera", description = "Pretty"),
+    Plant(name = "Palm tree", description = "Big"),
+    Plant(name = "Peace lily", description = "About to die")
+  )
+
   override suspend fun getAllPlantsFromBackup(): List<Plant> {
-    plants.add(Plant(name = "Monstera", description = "Pretty"))
-    plants.add(Plant(name = "Palm tree", description = "Big"))
-    plants.add(Plant(name = "Peace lily", description = "About to die"))
     return plants
   }
 

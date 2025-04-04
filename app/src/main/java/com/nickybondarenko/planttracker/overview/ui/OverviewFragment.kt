@@ -82,6 +82,7 @@ class OverviewFragment : Fragment() {
             binding.plantListRecyclerView.visibility = VISIBLE
           }
           // EmptyState means that the database loaded, but there was no data
+          // TODO improve
           is OverviewState.EmptyState -> {
             binding.includedEmptyPlantList.viewEmptyPlantList.visibility = VISIBLE
           }
@@ -120,7 +121,7 @@ class OverviewFragment : Fragment() {
       val plantDescription = binding.newPlantDescription
       builder.setPositiveButton("OK", DialogInterface.OnClickListener { _, _ ->
         newPlant = Plant(plantName.text.toString(), plantDescription.text.toString())
-        if(newPlant != null) { viewModel.updateRepo(newPlant) }
+        viewModel.updateRepo(newPlant)
       })
       builder.create()
     }
