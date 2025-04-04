@@ -20,7 +20,11 @@ class PlantRepositoryImpl @Inject constructor(
     return emptyList()
   }
 
-  override fun clear() {
+  override suspend fun addPlant(plant: Plant) {
+    plants.add(plant)
+  }
+
+  override suspend fun clear() {
     plants.clear()
   }
 }

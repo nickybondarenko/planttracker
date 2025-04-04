@@ -7,9 +7,13 @@
   <string name="plants_overview">Your plants overview</string>
   <string name="picture_of_your_plant">A picture of your plant</string>
   <string name="fab_content_description">Add a new plant to the list</string>
+  <string name="new_plant_name">New plant name</string>
+  <string name="new_plant_description">New plant description</string>
+  <string name="add_plant">ADD</string>
   <string name="remove_data_from_disk">Clear all plant data</string>
   <string name="unknown_error">Something went wrong, please try again later</string>
   <string name="generic_retry">Retry</string>
   <string name="plant_name">Plant</string>
   <string name="plant_description">Description</string>
+  <string name="ok">OK</string>
 </resources>

@@ -1,5 +1,8 @@
 package com.nickybondarenko.planttracker.overview.ui
 
+import android.app.AlertDialog
+import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,8 +16,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.nickybondarenko.planttracker.R
+import com.nickybondarenko.planttracker.databinding.AddPlantDialogBinding
 import com.nickybondarenko.planttracker.databinding.FragmentOverviewBinding
 import com.nickybondarenko.planttracker.exhaustive
+import com.nickybondarenko.planttracker.overview.domain.Plant
 import com.nickybondarenko.planttracker.overview.domain.PlantsRecyclerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -52,7 +57,7 @@ class OverviewFragment : Fragment() {
 
   private fun setupButtonListeners() {
     binding.addPlantButton.setOnClickListener {
-      viewModel.onAddPlantClicked()
+      viewModel.onAddPlantClicked(newPlantDialog())
       adapter.notifyDataSetChanged()
     }
     binding.clearPlantListButton.setOnClickListener {
@@ -103,6 +108,21 @@ class OverviewFragment : Fragment() {
       binding.loading.visibility = VISIBLE
     } else {
       binding.loading.visibility = GONE
+    }
+  }
+
+  private fun newPlantDialog(): AlertDialog {
+    var newPlant: Plant
+    return activity.let {
+      val binding = AddPlantDialogBinding.inflate(LayoutInflater.from(this.context))
+      val builder = AlertDialog.Builder(it).setView(binding.root)
+      val plantName = binding.newPlantName
+      val plantDescription = binding.newPlantDescription
+      builder.setPositiveButton("OK", DialogInterface.OnClickListener { _, _ ->
+        newPlant = Plant(plantName.text.toString(), plantDescription.text.toString())
+        if(newPlant != null) { viewModel.updateRepo(newPlant) }
+      })
+      builder.create()
     }
   }
 }
