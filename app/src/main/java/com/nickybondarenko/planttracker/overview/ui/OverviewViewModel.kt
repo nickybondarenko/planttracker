@@ -1,35 +1,57 @@
 package com.nickybondarenko.planttracker.overview.ui
 
+import android.app.AlertDialog
+import android.app.Dialog
+import android.view.LayoutInflater
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nickybondarenko.planttracker.databinding.AddPlantDialogBinding
 import com.nickybondarenko.planttracker.overview.domain.Plant
 import com.nickybondarenko.planttracker.overview.domain.PlantRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class OverviewViewModel @Inject constructor(val plantRepository: PlantRepository) : ViewModel() {
+class OverviewViewModel @Inject constructor(private val plantRepository: PlantRepository) : ViewModel() {
 
   private val _state = MutableStateFlow<OverviewState>(OverviewState.InitialState(true))
   val state: StateFlow<OverviewState> = _state
 
-  fun onAddPlantClicked() {
+  fun onAddPlantClicked(dialog: AlertDialog) {
+    viewModelScope.launch {
+      dialog.create()
+      dialog.show()
+    }
+  }
 
+  fun updateRepo(plant: Plant) {
+    viewModelScope.launch {
+      plantRepository.addPlant(plant)
+    }
+  }
+
+  fun onClearPlantListClicked() {
+    viewModelScope.launch {
+      plantRepository.clear()
+    }
   }
 
   fun loadData() {
     viewModelScope.launch {
       try {
-        val plants = plantRepository.getAllPlants()
+        val plants = plantRepository.getAllPlantsFromBackup()
         _state.value = OverviewState.DataState(false, plants)
       } catch (e: Exception) {
         _state.value = OverviewState.ErrorState(false)
       }
     }
   }
+
+  suspend fun getCurrentDataForDisplay(): List<Plant> = plantRepository.getAllPlantsFromBackup()
 }
 
 sealed class OverviewState(open val isLoading: Boolean) {

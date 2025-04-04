@@ -1,5 +1,8 @@
 package com.nickybondarenko.planttracker.overview.ui
 
+import android.app.AlertDialog
+import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,11 +13,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.nickybondarenko.planttracker.R
+import com.nickybondarenko.planttracker.databinding.AddPlantDialogBinding
 import com.nickybondarenko.planttracker.databinding.FragmentOverviewBinding
-import com.nickybondarenko.planttracker.databinding.ViewEmptyPlantListBinding
 import com.nickybondarenko.planttracker.exhaustive
+import com.nickybondarenko.planttracker.overview.domain.Plant
+import com.nickybondarenko.planttracker.overview.domain.PlantsRecyclerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -26,6 +32,7 @@ class OverviewFragment : Fragment() {
   private val binding get() = _binding!!
   private val viewModel: OverviewViewModel by viewModels()
   private var snackbar: Snackbar? = null
+  private lateinit var adapter: PlantsRecyclerAdapter
 
   override fun onCreateView(
     inflater: LayoutInflater,
@@ -38,7 +45,7 @@ class OverviewFragment : Fragment() {
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-    setupButtonListener()
+    setupButtonListeners()
     observeState()
     viewModel.loadData()
   }
@@ -48,9 +55,14 @@ class OverviewFragment : Fragment() {
     _binding = null
   }
 
-  private fun setupButtonListener() {
+  private fun setupButtonListeners() {
     binding.addPlantButton.setOnClickListener {
-      viewModel.onAddPlantClicked()
+      viewModel.onAddPlantClicked(newPlantDialog())
+      adapter.notifyDataSetChanged()
+    }
+    binding.clearPlantListButton.setOnClickListener {
+      viewModel.onClearPlantListClicked()
+      adapter.notifyDataSetChanged()
     }
   }
 
@@ -63,8 +75,14 @@ class OverviewFragment : Fragment() {
         when (it) {
           // DataState is successful loading of data
             // Feed the data from view model into recycler view here, recycler view to display data in the app
-          is OverviewState.DataState -> TODO()
+          is OverviewState.DataState -> {
+            adapter = PlantsRecyclerAdapter(viewModel.getCurrentDataForDisplay())
+            binding.plantListRecyclerView.adapter = adapter
+            binding.plantListRecyclerView.layoutManager = LinearLayoutManager(activity)
+            binding.plantListRecyclerView.visibility = VISIBLE
+          }
           // EmptyState means that the database loaded, but there was no data
+          // TODO improve
           is OverviewState.EmptyState -> {
             binding.includedEmptyPlantList.viewEmptyPlantList.visibility = VISIBLE
           }
@@ -91,6 +109,21 @@ class OverviewFragment : Fragment() {
       binding.loading.visibility = VISIBLE
     } else {
       binding.loading.visibility = GONE
+    }
+  }
+
+  private fun newPlantDialog(): AlertDialog {
+    var newPlant: Plant
+    return activity.let {
+      val binding = AddPlantDialogBinding.inflate(LayoutInflater.from(this.context))
+      val builder = AlertDialog.Builder(it).setView(binding.root)
+      val plantName = binding.newPlantName
+      val plantDescription = binding.newPlantDescription
+      builder.setPositiveButton("OK", DialogInterface.OnClickListener { _, _ ->
+        newPlant = Plant(plantName.text.toString(), plantDescription.text.toString())
+        viewModel.updateRepo(newPlant)
+      })
+      builder.create()
     }
   }
 }
